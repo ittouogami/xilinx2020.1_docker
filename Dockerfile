@@ -2,9 +2,9 @@ FROM ubuntu18
 LABEL maintainer "ittou <VYG07066@gmail.com>"
 ENV DEBIAN_FRONTEND noninteractive
 ARG XILINX_VER
+ARG XILINX_MAIN
 ARG IP
 ARG URIS=smb://${IP}/Share/Xilinx${XILINX_VER}/
-ARG XILINX_MAIN=Xilinx_Unified_2020.1_0602_1208.tar.gz
 ENV USER=${USER:-builduser}
 ENV USER_ID=${LOCAL_UID:-1000}
 ENV GROUP_ID=${LOCAL_GID:-1000}
@@ -19,11 +19,10 @@ RUN \
           software-properties-common \
           binutils \
           u-boot-tools \
-          file tofrodos \
+          file \
+          tofrodos \
           iproute2 \
-          gawk \
           net-tools \
-          libncurses5-dev \
           tftp \
           tftpd-hpa \
           zlib1g-dev \
