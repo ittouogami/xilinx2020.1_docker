@@ -37,7 +37,6 @@ RUN \
           libtool \
           socat \
           autoconf \
-          unzip \
           texinfo \
           gcc-multilib \
           libsdl1.2-dev \
