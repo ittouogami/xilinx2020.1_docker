@@ -47,7 +47,7 @@ RUN \
           ocl-icd-opencl-dev \
           smbclient \
           notification-daemon \
-          chromium-browser \
+          firefox \
           libjpeg62-dev && \
   dpkg --add-architecture i386 && \
   apt-get update && \

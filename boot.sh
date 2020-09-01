@@ -12,4 +12,5 @@ docker run -it --rm \
     -v /dev/bus/usb:/dev/bus/usb \
     -v /sys:/sys:ro \
     -w $HOME \
+    --shm-size=256m \
     xilinx2020.1
