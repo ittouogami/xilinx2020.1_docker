@@ -11,13 +11,13 @@ fi
 UART_GROUP=$(grep -Po "^\\w+(?=:x:${UART_GROUP_ID}:)" /etc/group)
 
 if [[ -n "$USER_ID" ]]; then
-  usermod -l hara builduser
-  groupmod -n hara builduser
   export HOME=/home/$USER
-  usermod -d $HOME $USER
+  useradd -s /bin/bash -u $USER_ID -o -d $HOME $USER
   usermod -aG sudo $USER
   usermod -aG $UART_GROUP $USER
+  echo root:root |chpasswd
   echo ${USER}:${USER} |chpasswd
+  chown $USER_ID:$GROUP_ID -R $HOME
   chown $USER $(tty)
   exec /usr/sbin/gosu "$USER" "$@"
 else

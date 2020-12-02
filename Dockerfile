@@ -5,7 +5,7 @@ ARG XILINX_VER
 ARG XILINX_MAIN
 ARG IP
 ARG URIS=smb://${IP}/Share/Xilinx${XILINX_VER}/
-ENV USER=${USER:-builduser}
+ENV USER=${USER:-1000}
 ENV USER_ID=${LOCAL_UID:-1000}
 ENV GROUP_ID=${LOCAL_GID:-1000}
 ENV HOME=/home/$USER
@@ -56,22 +56,14 @@ RUN \
           libc6-dev:i386 && \
   apt-get autoclean && \
   apt-get autoremove && \
-  rm -rf /var/lib/apt/lists/* && \
-  useradd -s /bin/bash -u ${USER_ID} -o -m -d ${HOME} ${USER} && \
-  echo root:root |chpasswd && \
-  echo ${USER}:${USER} |chpasswd && \
-  usermod -aG sudo ${USER} && \
-  chown ${USER_ID}:${GROUP_ID} -R ${HOME} && \
-  chown ${USER_ID}:${GROUP_ID} -R /opt && \
-  chown ${USER_ID}:${GROUP_ID} -R /XILINX-INSTALLER
-USER $USER
+  rm -rf /var/lib/apt/lists/*
 RUN smbget -O -a ${URIS}${XILINX_MAIN} | gzip -dcq - | tar x --strip-components=1 -C /XILINX-INSTALLER && \
   /XILINX-INSTALLER/xsetup \
     --agree 3rdPartyEULA,WebTalkTerms,XilinxEULA \
     --batch Install \
     --config /XILINX-INSTALLER/install_config_main.txt
 USER root
-RUN rm -rf /XILINX-INSTALLER /home/builduser
+RUN rm -rf /XILINX-INSTALLER
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
