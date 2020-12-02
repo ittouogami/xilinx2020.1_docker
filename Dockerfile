@@ -44,6 +44,8 @@ RUN \
           libtool-bin \
           cpio \
           pkg-config \
+          ocl-icd-libopencl1 \
+          opencl-headers \
           ocl-icd-opencl-dev \
           smbclient \
           notification-daemon \
@@ -62,7 +64,6 @@ RUN smbget -O -a ${URIS}${XILINX_MAIN} | gzip -dcq - | tar x --strip-components=
     --agree 3rdPartyEULA,WebTalkTerms,XilinxEULA \
     --batch Install \
     --config /XILINX-INSTALLER/install_config_main.txt
-USER root
 RUN rm -rf /XILINX-INSTALLER
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh
